@@ -1,0 +1,69 @@
+diff -Naur tellico-3.2.2-orig/CMakeLists.txt tellico-3.2.2/CMakeLists.txt
+--- tellico-3.2.2-orig/CMakeLists.txt	2019-11-16 20:42:55.494481200 +0100
++++ tellico-3.2.2/CMakeLists.txt	2019-11-16 21:38:01.445299100 +0100
+@@ -26,6 +26,7 @@
+ #include(ECMAddTests)
+ #include(ECMMarkNonGuiExecutable)
+ #include(ECMInstallIcons)
++include(ECMAddAppIcon)
+ include(ECMUninstallTarget)
+ include(FeatureSummary)
+ 
+diff -Naur tellico-3.2.2-orig/src/CMakeLists.txt tellico-3.2.2/src/CMakeLists.txt
+--- tellico-3.2.2-orig/src/CMakeLists.txt	2019-11-16 20:43:01.628250500 +0100
++++ tellico-3.2.2/src/CMakeLists.txt	2019-11-16 21:39:34.166264500 +0100
+@@ -22,7 +22,19 @@
+ 
+ ########### next target ###############
+ 
++set(ICONS_PNG
++  ${CMAKE_SOURCE_DIR}/icons/16-apps-tellico.png
++  ${CMAKE_SOURCE_DIR}/icons/22-apps-tellico.png
++  ${CMAKE_SOURCE_DIR}/icons/32-apps-tellico.png
++  ${CMAKE_SOURCE_DIR}/icons/48-apps-tellico.png
++  ${CMAKE_SOURCE_DIR}/icons/64-apps-tellico.png
++  ${CMAKE_SOURCE_DIR}/icons/128-apps-tellico.png
++)
++
++ecm_add_app_icon(ICONS_SOURCES ICONS ${ICONS_PNG})
++
+ SET(tellico_SRCS
++   ${ICONS_SOURCES}
+    bibtexkeydialog.cpp
+    borrower.cpp
+    borrowerdialog.cpp
+diff -Naur tellico-3.2.2-orig/src/core/filehandler.cpp tellico-3.2.2/src/core/filehandler.cpp
+--- tellico-3.2.2-orig/src/core/filehandler.cpp	2019-11-16 20:43:01.338702700 +0100
++++ tellico-3.2.2/src/core/filehandler.cpp	2019-11-16 21:18:21.105822500 +0100
+@@ -196,10 +196,10 @@
+ bool FileHandler::writeBackupFile(const QUrl& url_) {
+   bool success = true;
+   if(url_.isLocalFile()) {
+-    success = KBackup::backupFile(url_.path());
++    success = KBackup::backupFile(url_.toLocalFile());
+   } else {
+     QUrl backup(url_);
+-    backup.setPath(backup.path() + QLatin1Char('~'));
++    backup.setPath(backup.toLocalFile() + QLatin1Char('~'));
+     KIO::DeleteJob* delJob = KIO::del(backup);
+     KJobWidgets::setWindow(delJob, GUI::Proxy::widget());
+     delJob->exec(); // might fail if backup doesn't exist, that's ok
+diff -Naur tellico-3.2.2-orig/src/entryview.cpp tellico-3.2.2/src/entryview.cpp
+--- tellico-3.2.2-orig/src/entryview.cpp	2019-11-16 20:43:06.474684300 +0100
++++ tellico-3.2.2/src/entryview.cpp	2019-11-16 21:33:00.595849800 +0100
+@@ -284,12 +284,12 @@
+   m_handler->addStringParam("color2",   Config::templateHighlightedBaseColor(type).name().toLatin1());
+ 
+   if(Data::Document::self()->allImagesOnDisk()) {
+-    m_handler->addStringParam("imgdir", QFile::encodeName(ImageFactory::imageDir()));
++    m_handler->addStringParam("imgdir", QUrl::fromLocalFile(ImageFactory::imageDir()).toEncoded());
+   } else {
+-    m_handler->addStringParam("imgdir", QFile::encodeName(ImageFactory::tempDir()));
++    m_handler->addStringParam("imgdir", QUrl::fromLocalFile(ImageFactory::tempDir()).toEncoded());
+   }
+ 
+-  m_handler->addStringParam("datadir", QFile::encodeName(Tellico::installationDir()));
++  m_handler->addStringParam("datadir", QUrl::fromLocalFile(Tellico::installationDir()).toEncoded());
+ 
+   // if we don't have to reload the images, then just show the entry and we're done
+   if(reloadImages) {

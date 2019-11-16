@@ -23,7 +23,6 @@ class Package(BinaryPackageBase):
         return True
 
     def install(self):
-        if not os.path.isdir(os.path.join(self.installDir(), "bin")):
-            os.makedirs(os.path.join(self.installDir(), "bin"))
-        shutil.copy(os.path.join(self.sourceDir(), "bin", "*"),os.path.join(self.installDir(), "bin"))
+        if not BinaryPackageBase.install(self): return False
+        return True
 					

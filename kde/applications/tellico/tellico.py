@@ -8,6 +8,7 @@ class subinfo(info.infoclass):
         self.targets[ver] = f"http://tellico-project.org/files/tellico-{ver}.tar.xz"
         self.targetInstSrc[ver] = 'tellico-'+ver
         self.targetDigests[ver] = ("dd297d1bd16e4a720bbe74104d1ab7d5d193b9d0")
+        self.patchToApply[ver] = [("tellico_win_fix.diff", 1)]
         self.description = "tellico"
         self.defaultTarget = ver
 
@@ -22,9 +23,9 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
+        self.runtimeDependencies["libs/yaz"] = None
 
 from Package.CMakePackageBase import *
-
 
 class Package(CMakePackageBase):
     def __init__(self):
@@ -34,4 +35,3 @@ class Package(CMakePackageBase):
         self.defines["icon"] = os.path.join(self.packageDir(), "tellico.ico")
         self.defines["icon_png"] = os.path.join(self.sourceDir(), "icons", "128-apps-tellico.png")
         self.defines["file_types"] = [".tc"]
-
