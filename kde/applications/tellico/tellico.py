@@ -3,11 +3,11 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "3.2.2"
+        ver = "3.2.3"
         #self.svnTargets[ver] = "https://github.com/KDE/tellico.git||v" + ver
         self.targets[ver] = f"http://tellico-project.org/files/tellico-{ver}.tar.xz"
         self.targetInstSrc[ver] = 'tellico-'+ver
-        self.targetDigests[ver] = ("dd297d1bd16e4a720bbe74104d1ab7d5d193b9d0")
+        self.targetDigests[ver] = ("4494ded7c28ef47277a613706babfcde761b2bc0")
         self.patchToApply[ver] = [("tellico_win_fix.diff", 1)]
         self.description = "tellico"
         self.defaultTarget = ver
@@ -24,6 +24,8 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["libs/yaz"] = None
+        self.buildDependencies["dev-utils/png2ico"] = None
+        self.buildDependencies["libs/libcsv"] = None
 
 from Package.CMakePackageBase import *
 
