@@ -3,12 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "3.2.3"
-        #self.svnTargets[ver] = "https://github.com/KDE/tellico.git||v" + ver
+        ver = "3.3"
         self.targets[ver] = f"http://tellico-project.org/files/tellico-{ver}.tar.xz"
         self.targetInstSrc[ver] = 'tellico-'+ver
-        self.targetDigests[ver] = ("4494ded7c28ef47277a613706babfcde761b2bc0")
-        self.patchToApply[ver] = [("tellico_win_fix.diff", 1)]
+        self.targetDigests[ver] = ("508939b348946422d18fd1a6a6599f73b3489674")
         self.description = "tellico"
         self.defaultTarget = ver
 
