@@ -3,10 +3,10 @@ import info
 
 class subinfo(info.infoclass):
     def setTargets(self):
-        ver = "3.3"
+        ver = "3.3.1"
         self.targets[ver] = f"http://tellico-project.org/files/tellico-{ver}.tar.xz"
         self.targetInstSrc[ver] = 'tellico-'+ver
-        self.targetDigests[ver] = ("508939b348946422d18fd1a6a6599f73b3489674")
+        self.targetDigests[ver] = ("6b02d44d3107d29f7c71b9b01d45d8a5736d6959")
         self.description = "tellico"
         self.defaultTarget = ver
 
