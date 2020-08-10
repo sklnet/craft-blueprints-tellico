@@ -19,6 +19,7 @@ class subinfo(info.infoclass):
         self.runtimeDependencies["kde/frameworks/tier2/kfilemetadata"] = None
         self.runtimeDependencies["kde/frameworks/tier1/kitemmodels"] = None
         self.runtimeDependencies["kde/frameworks/tier3/knewstuff"] = None
+        self.runtimeDependencies["kde/frameworks/tier2/kpackage"] = None
         self.runtimeDependencies["qt-libs/poppler"] = None
         self.runtimeDependencies["kde/frameworks/tier1/ki18n"] = None
         self.runtimeDependencies["libs/yaz"] = None
